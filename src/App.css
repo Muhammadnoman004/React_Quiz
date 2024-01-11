@@ -40,11 +40,38 @@
 
 /* Css Applied */
 
+body {
+  background-color: rgb(196, 193, 193);
+}
+
+.main {
+  background-color: rgb(238, 231, 141);
+  width: 40%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#quizhead {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#ques {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 .options {
   display: flex;
   justify-content: center;
   margin: auto;
   margin-top: 15px;
-  width: 220px;
-  padding: 5px;
+  width: 100%;
+  padding: 8px;
+  background-color: rgb(196, 193, 193);
+  border: none;
+  border-top-left-radius: 20px;
+  border-end-end-radius: 20px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: medium;
+
 }

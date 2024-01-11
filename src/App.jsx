@@ -31,19 +31,23 @@ function App() {
 
   return (
     <div className="App">
+      <h1 id='quizhead'>.....Quiz App.....</h1>
 
-      <h1>Quiz App</h1>
+      <div className='main'>
 
-      <h4>{questions[CurrentQues].question.text}</h4>
+        <h4 id='ques'>{questions[CurrentQues].question.text}</h4>
 
-      {
-        Options.map((OptionsRender, index) => {
-          return <button className='options' key={index}>{OptionsRender}</button>
-        })
-      }
-      <br />
-      <button onClick={nextQuestion}>Next</button>
-      <button style={{ display: "none" }}>Restart</button>
+        {
+          Options.map((OptionsRender, index) => {
+            return <button className='options' key={index}>{OptionsRender}</button>
+          })
+        }
+        <br />
+        <button onClick={nextQuestion}>Next</button>
+        <button style={{ display: "none" }}>Restart</button>
+
+      </div>
+
 
     </div>
   );
