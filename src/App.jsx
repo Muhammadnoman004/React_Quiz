@@ -7,9 +7,11 @@ function App() {
   let [selectOption, setSelectOption] = useState(null);
   let [marks, setMarks] = useState(0);
   let Options = [];
+  
 
   useEffect(function () {
     getdataApi()
+
   }, [])
 
   function getdataApi() {
@@ -82,7 +84,7 @@ function App() {
         {
           CurrentQues === questions.length - 1 ? (
             <button onClick={restartques}>Restart</button>) : (
-            <button onClick={nextQuestion}>Next</button>)
+            <button onClick={nextQuestion} id='nextbtn'>Next</button>)
         }
 
       </div>
