@@ -7,7 +7,7 @@ function App() {
   let [selectOption, setSelectOption] = useState(null);
   let [marks, setMarks] = useState(0);
   let Options = [];
-  
+
 
   useEffect(function () {
     getdataApi()
@@ -33,10 +33,15 @@ function App() {
     setCurrentQues(CurrentQues + 1)
 
   }
-  function restartques() {
-    setCurrentQues(0)
-  }
+  function submitbtn() {
+    // setCurrentQues(0)
+    if (Options[selectOption] == questions[CurrentQues].correctAnswer) {
+      console.log("sahi hai");
+      setMarks(++marks);
+    }
+    console.log(marks);
 
+  }
 
   let incorrectAnswers = questions[CurrentQues].incorrectAnswers;
   Options.push(...incorrectAnswers);
@@ -73,7 +78,7 @@ function App() {
 
       <div className='main'>
 
-        <h4 id='ques'>{questions[CurrentQues].question.text}</h4>
+        <h4 id='ques'><span>{CurrentQues + 1}) </span>{questions[CurrentQues].question.text}</h4>
 
         {
           Options.map((OptionsRender, index) => {
@@ -83,12 +88,19 @@ function App() {
         <br />
         {
           CurrentQues === questions.length - 1 ? (
-            <button onClick={restartques}>Restart</button>) : (
+            <button onClick={submitbtn} id='subbtn'>Submit</button>) : (
             <button onClick={nextQuestion} id='nextbtn'>Next</button>)
         }
 
       </div>
 
+      <div className='ResultDiv'>
+        <h1>{(marks / questions.length) * 100 >= 70 ? "Congratulations !" : "Sorry,"}</h1>
+        <h3>Total Score :  {questions.length}</h3>
+        <h3>Your Score :  {marks}</h3>
+        <h3>Percentage :  {(marks / questions.length) * 100}</h3>
+
+      </div>
 
     </div>
   );
