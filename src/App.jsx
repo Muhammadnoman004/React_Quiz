@@ -6,6 +6,7 @@ function App() {
   let [CurrentQues, setCurrentQues] = useState(0);
   let [selectOption, setSelectOption] = useState(null);
   let [marks, setMarks] = useState(0);
+  let [result , setresult] = useState(false)
   let Options = [];
 
 
@@ -39,8 +40,11 @@ function App() {
       console.log("sahi hai");
       setMarks(++marks);
     }
-    console.log(marks);
-
+    // console.log(marks);
+    else{
+      setresult(true)
+    }
+  
   }
 
   let incorrectAnswers = questions[CurrentQues].incorrectAnswers;
@@ -75,6 +79,8 @@ function App() {
   return (
     <div className="App">
       <h1 id='quizhead'>.....Quiz App.....</h1>
+      
+      {result ? true : (
 
       <div className='main'>
 
@@ -93,6 +99,9 @@ function App() {
         }
 
       </div>
+
+      )}
+
 
       <div className='ResultDiv'>
         <h1>{(marks / questions.length) * 100 >= 70 ? "Congratulations !" : "Sorry,"}</h1>
