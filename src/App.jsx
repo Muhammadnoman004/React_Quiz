@@ -6,13 +6,12 @@ function App() {
   let [CurrentQues, setCurrentQues] = useState(0);
   let [selectOption, setSelectOption] = useState(null);
   let [marks, setMarks] = useState(0);
-  let [result , setresult] = useState(false)
+  let [nextbtnClick, setnextbtnClick] = useState(false)
+  let [result, setresult] = useState(false)
   let Options = [];
-
 
   useEffect(function () {
     getdataApi()
-
   }, [])
 
   function getdataApi() {
@@ -22,10 +21,11 @@ function App() {
   }
   console.log(questions)
   if (!questions.length) {
-    return <h1>loading...</h1>
+    return <img src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87_w200.webp" id='loader' alt="" />
   }
 
   function nextQuestion() {
+    setnextbtnClick(false)
     if (Options[selectOption] == questions[CurrentQues].correctAnswer) {
       console.log("sahi hai");
       setMarks(++marks);
@@ -35,16 +35,16 @@ function App() {
 
   }
   function submitbtn() {
-    // setCurrentQues(0)
     if (Options[selectOption] == questions[CurrentQues].correctAnswer) {
       console.log("sahi hai");
       setMarks(++marks);
-    }
-    // console.log(marks);
-    else{
       setresult(true)
     }
-  
+    else {
+      setresult(true)
+    }
+    console.log(marks);
+
   }
 
   let incorrectAnswers = questions[CurrentQues].incorrectAnswers;
@@ -79,37 +79,39 @@ function App() {
   return (
     <div className="App">
       <h1 id='quizhead'>.....Quiz App.....</h1>
-      
-      {result ? true : (
 
-      <div className='main'>
+      {result ? (
+        <div className='ResultDiv'>
+          <h1 id='Resulthead'>{(marks / questions.length) * 100 >= 60 ? "Congratulations !" : "Sorry,"}</h1>
+          <img src={(marks / questions.length) * 100 >= 60 ? "https://www.lolgifs.net/wp-content/uploads/2019/01/trump-funny-dance.gif" : "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/353ab64d-8593-41e3-8369-399e110449f7/decjxju-e963df79-8a9d-4957-a95f-21eeb0225b40.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzM1M2FiNjRkLTg1OTMtNDFlMy04MzY5LTM5OWUxMTA0NDlmN1wvZGVjanhqdS1lOTYzZGY3OS04YTlkLTQ5NTctYTk1Zi0yMWVlYjAyMjViNDAuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.fOd-3bk3zAhkkWKVTtq-4DJ4TEKGlJainF6f03OdkCI"} id='resultImg' alt="" />
+          <h3 className='ResultText'>Total Score :  <span>{questions.length}</span></h3><hr />
+          <h3 className='ResultText'>Your Score :  <span>{marks}</span></h3><hr />
+          <h3 className='ResultText'>Percentage :  <span>{(marks / questions.length) * 100}%</span></h3>
 
-        <h4 id='ques'><span>{CurrentQues + 1}) </span>{questions[CurrentQues].question.text}</h4>
+        </div>
 
-        {
-          Options.map((OptionsRender, index) => {
-            return <button className='options' key={index} onClick={() => setSelectOption(index)}>{OptionsRender}</button>
-          })
-        }
-        <br />
-        {
-          CurrentQues === questions.length - 1 ? (
-            <button onClick={submitbtn} id='subbtn'>Submit</button>) : (
-            <button onClick={nextQuestion} id='nextbtn'>Next</button>)
-        }
+      ) : (
 
-      </div>
+        <div className='main'>
+
+          <h4 id='ques'><span>{CurrentQues + 1}) </span>{questions[CurrentQues].question.text}</h4>
+
+          {
+            Options.map((OptionsRender, index) => {
+              return <button className='options' key={index} onClick={() => setSelectOption(index, setnextbtnClick(true))}>{OptionsRender}</button>
+            })
+          }
+          <br />
+          {
+            CurrentQues === questions.length - 1 ? (
+              <button onClick={submitbtn} id='subbtn'>Submit</button>) : (
+              <button onClick={nextQuestion} id='nextbtn' disabled={!nextbtnClick}>Next</button>)
+          }
+
+        </div>
 
       )}
 
-
-      <div className='ResultDiv'>
-        <h1>{(marks / questions.length) * 100 >= 70 ? "Congratulations !" : "Sorry,"}</h1>
-        <h3>Total Score :  {questions.length}</h3>
-        <h3>Your Score :  {marks}</h3>
-        <h3>Percentage :  {(marks / questions.length) * 100}</h3>
-
-      </div>
 
     </div>
   );
