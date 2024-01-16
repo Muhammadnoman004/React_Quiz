@@ -76,6 +76,7 @@ body {
   font-size: 22px;
   margin-top: 0;
   margin-bottom: 0;
+  margin-top: -10px;
 }
 
 .options {
@@ -189,11 +190,19 @@ span {
   display: flex;
   justify-content: end;
   margin-top: -10px;
-}
-.timer{
-  width: 10px;
+
 }
 
+.timer {
+  padding-right: 5px;
+  color: #595345;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  font-size: 20px;
+  text-shadow: 1px 1px 1px #d6c8ac;
+}
+
+/* Media Querry */
 
 @media screen and (max-width: 1000px) {
   .main {
