@@ -8,16 +8,22 @@ function App() {
   let [marks, setMarks] = useState(0);
   let [nextbtnClick, setnextbtnClick] = useState(false)
   let [result, setresult] = useState(false)
+  let [sec, setsec] = useState(59);
+  let [min, setmin] = useState(0);
   let Options = [];
 
   useEffect(function () {
     getdataApi()
+    Timer()
   }, [])
 
   function getdataApi() {
     fetch('https://the-trivia-api.com/v2/questions')
       .then(res => res.json())
-      .then(res => setquestion(res))
+      .then(res => {
+        setquestion(res)
+        setmin(min = res.length - 1)
+      })
   }
   console.log(questions)
   if (!questions.length) {
@@ -51,7 +57,7 @@ function App() {
   Options.push(...incorrectAnswers);
   let correctAnswer = questions[CurrentQues].correctAnswer;
   Options.push(correctAnswer);
-  Options = shuffle(Options)
+  // Options = shuffle(Options)
 
   function shuffle(array) {
     let currentIndex = array.length, randomIndex;
@@ -76,6 +82,23 @@ function App() {
   shuffle(arr);
   console.log(arr);
 
+
+  function Timer() {
+    let interval = setInterval(() => {
+      setsec(sec--);
+      if (sec == -2) {
+        setmin(min--);
+        setsec(sec = 59);
+        if (min == -2) {
+          setmin(min == 0);
+          setsec(sec = 0);
+          setresult(true);
+          clearInterval(interval)
+        }
+      }
+    }, 1000);
+  }
+
   return (
     <div className="App">
       <h1 id='quizhead'>.....Quiz App.....</h1>
@@ -93,7 +116,11 @@ function App() {
       ) : (
 
         <div className='main'>
-
+          <div className='timerDiv'>
+            <p className='timer'>{min}</p>
+            <p className='timer'>:</p>
+            <p className='timer'>{sec}</p>
+          </div>
           <h4 id='ques'><span>{CurrentQues + 1}) </span>{questions[CurrentQues].question.text}</h4>
 
           {

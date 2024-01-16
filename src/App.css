@@ -185,6 +185,16 @@ span {
   padding-left: 20px;
 }
 
+.timerDiv {
+  display: flex;
+  justify-content: end;
+  margin-top: -10px;
+}
+.timer{
+  width: 10px;
+}
+
+
 @media screen and (max-width: 1000px) {
   .main {
     width: 60%;
