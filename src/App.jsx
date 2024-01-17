@@ -4,18 +4,24 @@ import './App.css';
 function App() {
   let [questions, setquestion] = useState([]);
   let [CurrentQues, setCurrentQues] = useState(0);
+  let [optionsArr, setOptionsArr] = useState([]);
   let [selectOption, setSelectOption] = useState(null);
   let [marks, setMarks] = useState(0);
   let [nextbtnClick, setnextbtnClick] = useState(false)
   let [result, setresult] = useState(false)
   let [sec, setsec] = useState(59);
   let [min, setmin] = useState(0);
-  let Options = [];
 
   useEffect(function () {
     getdataApi()
     Timer()
   }, [])
+
+  useEffect(() => {
+    if (questions.length > 0) {
+      Shuffle();
+    }
+  }, [CurrentQues, questions]);
 
   function getdataApi() {
     fetch('https://the-trivia-api.com/v2/questions')
@@ -32,7 +38,7 @@ function App() {
 
   function nextQuestion() {
     setnextbtnClick(false)
-    if (Options[selectOption] == questions[CurrentQues].correctAnswer) {
+    if (optionsArr[selectOption] == questions[CurrentQues].correctAnswer) {
       console.log("sahi hai");
       setMarks(++marks);
     }
@@ -41,7 +47,7 @@ function App() {
 
   }
   function submitbtn() {
-    if (Options[selectOption] == questions[CurrentQues].correctAnswer) {
+    if (optionsArr[selectOption] == questions[CurrentQues].correctAnswer) {
       console.log("sahi hai");
       setMarks(++marks);
       setresult(true)
@@ -53,34 +59,17 @@ function App() {
 
   }
 
-  let incorrectAnswers = questions[CurrentQues].incorrectAnswers;
-  Options.push(...incorrectAnswers);
-  let correctAnswer = questions[CurrentQues].correctAnswer;
-  Options.push(correctAnswer);
-  // Options = shuffle(Options)
+  function Shuffle() {
+    let Options = [];
+    let incorrectAnswers = questions[CurrentQues].incorrectAnswers;
+    Options.push(...incorrectAnswers);
+    let correctAnswer = questions[CurrentQues].correctAnswer;
+    Options.push(correctAnswer);
 
-  function shuffle(array) {
-    let currentIndex = array.length, randomIndex;
+    Options.sort(() => Math.random() - 0.5);
+    setOptionsArr(Options);
 
-    // While there remain elements to shuffle.
-    while (currentIndex > 0) {
-
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
-    }
-
-    return array;
   }
-
-  // Used like so
-  var arr = [2, 11, 37, 42];
-  shuffle(arr);
-  console.log(arr);
 
 
   function Timer() {
@@ -124,7 +113,7 @@ function App() {
           <h4 id='ques'><span>{CurrentQues + 1}) </span>{questions[CurrentQues].question.text}</h4>
 
           {
-            Options.map((OptionsRender, index) => {
+            optionsArr.map((OptionsRender, index) => {
               return <button className='options' key={index} onClick={() => setSelectOption(index, setnextbtnClick(true))}>{OptionsRender}</button>
             })
           }
