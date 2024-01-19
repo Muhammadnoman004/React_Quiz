@@ -31,7 +31,6 @@ function App() {
         setmin(min = res.length - 1)
       })
   }
-  console.log(questions)
   if (!questions.length) {
     return <img src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87_w200.webp" id='loader' alt="" />
   }
@@ -39,23 +38,19 @@ function App() {
   function nextQuestion() {
     setnextbtnClick(false)
     if (optionsArr[selectOption] == questions[CurrentQues].correctAnswer) {
-      console.log("sahi hai");
       setMarks(++marks);
     }
-    console.log(marks);
     setCurrentQues(CurrentQues + 1)
 
   }
   function submitbtn() {
     if (optionsArr[selectOption] == questions[CurrentQues].correctAnswer) {
-      console.log("sahi hai");
       setMarks(++marks);
       setresult(true)
     }
     else {
       setresult(true)
     }
-    console.log(marks);
 
   }
 
@@ -73,19 +68,29 @@ function App() {
 
 
   function Timer() {
-    let interval = setInterval(() => {
-      setsec(sec--);
-      if (sec == -2) {
-        setmin(min--);
-        setsec(sec = 59);
-        if (min == -2) {
-          setmin(min == 0);
-          setsec(sec = 0);
-          setresult(true);
-          clearInterval(interval)
-        }
+    let milliSec = 100;
+    let id = setInterval(() => {
+      milliSec--;
+      if (milliSec === -1) {
+        milliSec = 100;
+        setsec((prevSecond) => {
+          let newSecond = prevSecond - 1;
+          if (newSecond === -1) {
+            setmin((prevMinute) => {
+              let newMinute = prevMinute - 1;
+              if (newMinute <= -1 && newSecond <= 0) {
+                setresult(true);
+                clearInterval(id);
+                return 0;
+              }
+              setsec(59);
+              return newMinute;
+            });
+          }
+          return newSecond;
+        });
       }
-    }, 1000);
+    }, 1);
   }
 
   return (
